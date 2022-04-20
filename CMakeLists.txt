@@ -9,6 +9,22 @@ add_library(fpm INTERFACE)
 target_include_directories(fpm INTERFACE include)
 
 #
+# Unity Plugin build
+#
+
+project(fpm-unity)
+add_library(fpm-unity STATIC unity-plugin/fpm-unity.cpp)
+target_include_directories(fpm-unity PUBLIC unity-plugin/include)
+set_target_properties(fpm-unity PROPERTIES
+        ARCHIVE_OUTPUT_DIRECTORY "unity-plugin/lib"
+        LIBRARY_OUTPUT_DIRECTORY "unity-plugin/lib"
+        RUNTIME_OUTPUT_DIRECTORY "unity-plugin/bin")
+target_link_libraries(fpm-unity PUBLIC fpm)
+
+#
+
+
+#
 # Test suite
 #
 enable_testing()
