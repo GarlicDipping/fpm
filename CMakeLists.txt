@@ -13,13 +13,14 @@ target_include_directories(fpm INTERFACE include)
 #
 
 project(fpm-unity)
-add_library(fpm-unity STATIC unity-plugin/fpm-unity.cpp)
-target_include_directories(fpm-unity PUBLIC unity-plugin/include)
+add_library(fpm-unity SHARED unity-plugin/fpm-unity.cpp)
+target_include_directories(fpm-unity PUBLIC unity-plugin/include
+        include)
 set_target_properties(fpm-unity PROPERTIES
         ARCHIVE_OUTPUT_DIRECTORY "unity-plugin/lib"
         LIBRARY_OUTPUT_DIRECTORY "unity-plugin/lib"
         RUNTIME_OUTPUT_DIRECTORY "unity-plugin/bin")
-target_link_libraries(fpm-unity PUBLIC fpm)
+target_link_libraries(fpm-unity PRIVATE fpm)
 
 #
 

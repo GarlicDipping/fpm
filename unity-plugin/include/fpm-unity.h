@@ -13,6 +13,12 @@
 
 extern "C"
 {
+DLLExport fpm::fixed_16_16 test();
+DLLExport fpm::fixed_16_16 test_add(fpm::fixed_16_16 a, fpm::fixed_16_16 b);
+DLLExport fpm::fixed_16_16 test_mult(fpm::fixed_16_16 a, fpm::fixed_16_16 b);
+DLLExport fpm::fixed_16_16 test_minus(fpm::fixed_16_16 a, fpm::fixed_16_16 b);
+DLLExport fpm::fixed_16_16 test_div(fpm::fixed_16_16 a, fpm::fixed_16_16 b);
+DLLExport int test_rawvalue(fpm::fixed_16_16 a);
 DLLExport int add(int num1, int num2);
 DLLExport int multiply(int num1, int num2);
 DLLExport int substract(int num1, int num2);
