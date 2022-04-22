@@ -46,9 +46,9 @@ add_executable(fpm-test
   tests/output.cpp
   tests/power.cpp
   tests/trigonometry.cpp
-)
+        tests/unity_plugin.cpp)
 set_target_properties(fpm-test PROPERTIES CXX_STANDARD 11)
-target_link_libraries(fpm-test PRIVATE fpm gtest_main)
+target_link_libraries(fpm-test PRIVATE fpm fpm-unity gtest_main)
 gtest_add_tests(TARGET fpm-test)
 
 #

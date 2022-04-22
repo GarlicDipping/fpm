@@ -51,3 +51,19 @@ TEST(arithmethic, division_range)
     // wrong results without the intermediate type.
     EXPECT_EQ(P(32), P(256) / P(8));
 }
+
+TEST(arithmethic, mix)
+{
+    using P = fpm::fixed_24_8;
+
+    P half = P::mix(0, 5, 10);
+    P half_orig = P(0.5);
+    EXPECT_EQ(half, half_orig);
+
+    P tenhalf = P::mix(10, 5, 10);
+    P tenhalf_orig = P(10.5);
+
+    EXPECT_EQ(tenhalf, tenhalf_orig);
+    EXPECT_EQ(P::mix(10, 1, 10), P(10.1));
+    EXPECT_EQ(P::mix(-5, 1, 10), P(-5.1));
+}

@@ -104,6 +104,18 @@ public:
         return fixed(value, raw_construct_tag{});
     }
 
+    static inline fixed mix(BaseType integer, BaseType numerator, BaseType denominator) noexcept
+    {
+        assert(numerator >= 0 && denominator >= 0);
+
+        IntermediateType fractionRange = static_cast<IntermediateType>(FRACTION_MULT);
+        IntermediateType fractionMask = fractionRange - 1;
+        IntermediateType fraction = (fractionRange * numerator / denominator) & (fractionMask);
+        fraction = integer < 0 ? -fraction : fraction;
+        return fixed(static_cast<BaseType>(integer * FRACTION_MULT + fraction),
+                     raw_construct_tag{});
+    }
+
     //
     // Constants
     //
