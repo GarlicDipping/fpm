@@ -10,19 +10,23 @@
 #include "fpm/fixed.hpp"  // For fpm::fixed_16_16
 #include "fpm/math.hpp"   // For fpm::cos
 #include "fpm/ios.hpp"    // For fpm::operator<<
-#include <sstream>
 
-using fixed_float = fpm::fixed_16_16;
 using fixed_float_base_type = std::int32_t;
+using fixed_float = fpm::fixed<fixed_float_base_type, std::int64_t, 12>; //Q20.12
 
 extern "C"
 {
-DLLExport fixed_float_base_type mix(fixed_float_base_type integer, fixed_float_base_type numerator, fixed_float_base_type denominator);
-DLLExport fixed_float_base_type test_add(fixed_float_base_type a_raw, fixed_float_base_type b_raw);
-DLLExport fixed_float_base_type test_mult(fixed_float_base_type a_raw, fixed_float_base_type b_raw);
-DLLExport fixed_float_base_type test_minus(fixed_float_base_type a_raw, fixed_float_base_type b_raw);
-DLLExport fixed_float_base_type test_div(fixed_float_base_type a_raw, fixed_float_base_type b_raw);
-DLLExport float to_float(fixed_float_base_type raw);
+    struct FixedFloat
+    {
+        fixed_float_base_type rawValue;
+    };
+
+DLLExport FixedFloat add(FixedFloat a_raw, FixedFloat b_raw);
+DLLExport FixedFloat multiply(FixedFloat a_raw, FixedFloat b_raw);
+DLLExport FixedFloat subtract(FixedFloat a_raw, FixedFloat b_raw);
+DLLExport FixedFloat divide(FixedFloat a_raw, FixedFloat b_raw);
+DLLExport void mix(FixedFloat* in, fixed_float_base_type integer, fixed_float_base_type numerator, fixed_float_base_type denominator);
+DLLExport float to_float(FixedFloat raw);
 }
 
 #endif //FPM_FPM_UNITY_H

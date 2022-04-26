@@ -4,53 +4,52 @@
 
 #include "include/fpm-unity.h"
 
-fixed_float_base_type mix(fixed_float_base_type integer, fixed_float_base_type numerator, fixed_float_base_type denominator)
+FixedFloat add(FixedFloat a_raw, FixedFloat b_raw)
+{
+    fixed_float res = fixed_float::from_raw_value(a_raw.rawValue)
+            + fixed_float ::from_raw_value(b_raw.rawValue);
+    a_raw.rawValue = res.raw_value();
+    return a_raw;
+}
+FixedFloat multiply(FixedFloat a_raw, FixedFloat b_raw)
+{
+    fixed_float res = fixed_float::from_raw_value(a_raw.rawValue)
+                      * fixed_float ::from_raw_value(b_raw.rawValue);
+    a_raw.rawValue = res.raw_value();
+    return a_raw;
+}
+FixedFloat subtract(FixedFloat a_raw, FixedFloat b_raw)
+{
+    fixed_float res = fixed_float::from_raw_value(a_raw.rawValue)
+                      - fixed_float ::from_raw_value(b_raw.rawValue);
+    a_raw.rawValue = res.raw_value();
+    return a_raw;
+}
+FixedFloat divide(FixedFloat a_raw, FixedFloat b_raw)
+{
+    fixed_float res = fixed_float::from_raw_value(a_raw.rawValue)
+                      / fixed_float ::from_raw_value(b_raw.rawValue);
+    a_raw.rawValue = res.raw_value();
+    return a_raw;
+}
+
+void mix(FixedFloat* in, fixed_float_base_type integer, fixed_float_base_type numerator, fixed_float_base_type denominator)
 {
     fixed_float res = fixed_float::mix(integer, numerator, denominator);
-    return res.raw_value();
-}
-fixed_float_base_type test_add(fixed_float_base_type a_raw, fixed_float_base_type b_raw)
-{
-    fixed_float res = fixed_float::from_raw_value(a_raw) + fixed_float ::from_raw_value(b_raw);
-    return res.raw_value();
-}
-fixed_float_base_type test_mult(fixed_float_base_type a_raw, fixed_float_base_type b_raw)
-{
-    fixed_float res = fixed_float::from_raw_value(a_raw) * fixed_float ::from_raw_value(b_raw);
-    return res.raw_value();
-}
-fixed_float_base_type test_minus(fixed_float_base_type a_raw, fixed_float_base_type b_raw)
-{
-    fixed_float res = fixed_float::from_raw_value(a_raw) - fixed_float ::from_raw_value(b_raw);
-    return res.raw_value();
-}
-fixed_float_base_type test_div(fixed_float_base_type a_raw, fixed_float_base_type b_raw)
-{
-    fixed_float res = fixed_float::from_raw_value(a_raw) / fixed_float ::from_raw_value(b_raw);
-    return res.raw_value();
+    in->rawValue = res.raw_value();
 }
 
-float to_float(fixed_float_base_type raw)
+float to_float(FixedFloat raw)
 {
-    return (float)fixed_float::from_raw_value(raw);
+    return (float)fixed_float::from_raw_value(raw.rawValue);
 }
 
-int add(int num1, int num2)
-{
-    return num1 + num2;
-}
+//Mathmatics
 
-int multiply(int num1, int num2)
+void pow(FixedFloat* in, FixedFloat base, FixedFloat pow)
 {
-    return num1 * num2;
-}
-
-int substract(int num1, int num2)
-{
-    return num1 - num2;
-}
-
-int divide(int num1, int num2)
-{
-    return num1 / num2;
+    auto ffBase = fixed_float::from_raw_value(base.rawValue);
+    auto ffPow = fixed_float::from_raw_value(pow.rawValue);
+    auto res = fpm::pow(ffBase, ffPow);
+    in->rawValue = res.raw_value();
 }
