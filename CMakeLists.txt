@@ -46,7 +46,7 @@ add_executable(fpm-test
   tests/output.cpp
   tests/power.cpp
   tests/trigonometry.cpp
-        tests/unity_plugin.cpp)
+        )
 set_target_properties(fpm-test PROPERTIES CXX_STANDARD 11)
 target_link_libraries(fpm-test PRIVATE fpm fpm-unity gtest_main)
 gtest_add_tests(TARGET fpm-test)
@@ -62,7 +62,7 @@ set(LIBFIXMATH_ROOT "${CMAKE_CURRENT_BINARY_DIR}/libfixmath")
 
 ExternalProject_Add(libfixmath-external
   GIT_REPOSITORY "https://github.com/PetteriAimonen/libfixmath.git"
-  GIT_TAG bada934981a5961569ad2cb6b9006ed94542cc9c
+  GIT_TAG 64d851a6f93267defcdc11cfaee4102786c660bb
   PREFIX ${LIBFIXMATH_ROOT}
   CONFIGURE_COMMAND ""
   BUILD_COMMAND ""
