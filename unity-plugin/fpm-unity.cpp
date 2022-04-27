@@ -39,6 +39,12 @@ FixedFloat divide(FixedFloat a_raw, FixedFloat b_raw)
 
 #pragma region Utilities
 
+void from_raw(FixedFloat* in, fixed_float_base_type rawVal)
+{
+    fixed_float val = fixed_float::from_raw_value(rawVal);
+    in->rawValue = val.raw_value();
+}
+
 void from_int(FixedFloat* in, fixed_float_base_type integer)
 {
     fixed_float res {integer};

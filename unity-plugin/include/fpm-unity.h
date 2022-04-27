@@ -28,6 +28,7 @@ DLLExport FixedFloat divide(FixedFloat a_raw, FixedFloat b_raw);
 
 //Utilities
 DLLExport void from_int(FixedFloat* in, fixed_float_base_type integer);
+DLLExport void from_raw(FixedFloat* in, fixed_float_base_type rawVal);
 DLLExport void mix(FixedFloat* in, fixed_float_base_type integer, fixed_float_base_type numerator, fixed_float_base_type denominator);
 DLLExport float to_float(FixedFloat raw);
 
