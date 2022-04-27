@@ -39,6 +39,11 @@ FixedFloat divide(FixedFloat a_raw, FixedFloat b_raw)
 
 #pragma region Utilities
 
+fixed_float_base_type fractional_bits()
+{
+    return fixed_float_fraction_bits;
+}
+
 void from_raw(FixedFloat* in, fixed_float_base_type rawVal)
 {
     fixed_float val = fixed_float::from_raw_value(rawVal);

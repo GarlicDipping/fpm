@@ -11,8 +11,9 @@
 #include "fpm/math.hpp"   // For fpm::cos
 #include "fpm/ios.hpp"    // For fpm::operator<<
 
+const int fixed_float_fraction_bits = 16;
 using fixed_float_base_type = std::int32_t;
-using fixed_float = fpm::fixed<fixed_float_base_type, std::int64_t, 16>; //Q16.16
+using fixed_float = fpm::fixed<fixed_float_base_type, std::int64_t, fixed_float_fraction_bits>; //Q16.16
 
 extern "C"
 {
@@ -66,6 +67,7 @@ DLLExport void ff_sqrt(FixedFloat* in, FixedFloat val);
 
 
 //NEED CACHING ON C# STRUCT INITIALIZATION!
+DLLExport fixed_float_base_type fractional_bits();
 DLLExport void e(FixedFloat* out);
 DLLExport void pi(FixedFloat* out);
 DLLExport void half_pi(FixedFloat* out);
