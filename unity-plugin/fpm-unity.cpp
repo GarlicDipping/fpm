@@ -6,33 +6,21 @@
 
 #pragma region Arithmatics
 
-FixedPoint add(FixedPoint a_raw, FixedPoint b_raw)
+void add(fixed_float* in, fixed_float a_raw, fixed_float b_raw)
 {
-    fixed_float res = fixed_float::from_raw_value(a_raw.rawValue)
-            + fixed_float ::from_raw_value(b_raw.rawValue);
-    a_raw.rawValue = res.raw_value();
-    return a_raw;
+    in->set_raw_value((a_raw + b_raw).raw_value());
 }
-FixedPoint multiply(FixedPoint a_raw, FixedPoint b_raw)
+void multiply(fixed_float* in, fixed_float a_raw, fixed_float b_raw)
 {
-    fixed_float res = fixed_float::from_raw_value(a_raw.rawValue)
-                      * fixed_float ::from_raw_value(b_raw.rawValue);
-    a_raw.rawValue = res.raw_value();
-    return a_raw;
+    in->set_raw_value((a_raw * b_raw).raw_value());
 }
-FixedPoint subtract(FixedPoint a_raw, FixedPoint b_raw)
+void subtract(fixed_float* in, fixed_float a_raw, fixed_float b_raw)
 {
-    fixed_float res = fixed_float::from_raw_value(a_raw.rawValue)
-                      - fixed_float ::from_raw_value(b_raw.rawValue);
-    a_raw.rawValue = res.raw_value();
-    return a_raw;
+    in->set_raw_value((a_raw - b_raw).raw_value());
 }
-FixedPoint divide(FixedPoint a_raw, FixedPoint b_raw)
+void divide(fixed_float* in, fixed_float a_raw, fixed_float b_raw)
 {
-    fixed_float res = fixed_float::from_raw_value(a_raw.rawValue)
-                      / fixed_float ::from_raw_value(b_raw.rawValue);
-    a_raw.rawValue = res.raw_value();
-    return a_raw;
+    in->set_raw_value((a_raw / b_raw).raw_value());
 }
 
 #pragma endregion
@@ -44,27 +32,26 @@ fixed_float_base_type fractional_bits()
     return fixed_float_fraction_bits;
 }
 
-void from_raw(FixedPoint* in, fixed_float_base_type rawVal)
+void from_raw(fixed_float* in, fixed_float_base_type rawVal)
 {
-    fixed_float val = fixed_float::from_raw_value(rawVal);
-    in->rawValue = val.raw_value();
+    in->set_raw_value(rawVal);
 }
 
-void from_int(FixedPoint* in, fixed_float_base_type integer)
+void from_int(fixed_float* in, fixed_float_base_type integer)
 {
     fixed_float res {integer};
-    in->rawValue = res.raw_value();
+    in->set_raw_value(res.raw_value());
 }
 
-void mix(FixedPoint* in, fixed_float_base_type integer, fixed_float_base_type numerator, fixed_float_base_type denominator)
+void mix(fixed_float* in, fixed_float_base_type integer, fixed_float_base_type numerator, fixed_float_base_type denominator)
 {
     fixed_float res = fixed_float::mix(integer, numerator, denominator);
-    in->rawValue = res.raw_value();
+    in->set_raw_value(res.raw_value());
 }
 
-float to_float(FixedPoint raw)
+float to_float(fixed_float raw)
 {
-    return (float)fixed_float::from_raw_value(raw.rawValue);
+    return (float)raw;
 }
 
 #pragma endregion
@@ -72,201 +59,163 @@ float to_float(FixedPoint raw)
 #pragma region Mathmatics
 
 
-void ff_ceil(FixedPoint* in, FixedPoint val)
+void ff_ceil(fixed_float* in, fixed_float val)
 {
-    auto ffVal = fixed_float::from_raw_value(val.rawValue);
-    auto res = fpm::ceil(ffVal);
-    in->rawValue = res.raw_value();
+    auto res = fpm::ceil(val);
+    in->set_raw_value(res.raw_value());
 }
-void ff_floor(FixedPoint* in, FixedPoint val)
+void ff_floor(fixed_float* in, fixed_float val)
 {
-    auto ffVal = fixed_float::from_raw_value(val.rawValue);
-    auto res = fpm::floor(ffVal);
-    in->rawValue = res.raw_value();
+    auto res = fpm::floor(val);
+    in->set_raw_value(res.raw_value());
 }
-void ff_trunc(FixedPoint* in, FixedPoint val)
+void ff_trunc(fixed_float* in, fixed_float val)
 {
-    auto ffVal = fixed_float::from_raw_value(val.rawValue);
-    auto res = fpm::trunc(ffVal);
-    in->rawValue = res.raw_value();
+    auto res = fpm::trunc(val);
+    in->set_raw_value(res.raw_value());
 }
-void ff_round(FixedPoint* in, FixedPoint val)
+void ff_round(fixed_float* in, fixed_float val)
 {
-    auto ffVal = fixed_float::from_raw_value(val.rawValue);
-    auto res = fpm::round(ffVal);
-    in->rawValue = res.raw_value();
+    auto res = fpm::round(val);
+    in->set_raw_value(res.raw_value());
 }
-void ff_abs(FixedPoint* in, FixedPoint val)
+void ff_abs(fixed_float* in, fixed_float val)
 {
-    auto ffVal = fixed_float::from_raw_value(val.rawValue);
-    auto res = fpm::abs(ffVal);
-    in->rawValue = res.raw_value();
+    auto res = fpm::abs(val);
+    in->set_raw_value(res.raw_value());
 }
-void ff_fmod(FixedPoint* in, FixedPoint x, FixedPoint y)
+void ff_fmod(fixed_float* in, fixed_float x, fixed_float y)
 {
-    auto ffX = fixed_float::from_raw_value(x.rawValue);
-    auto ffY = fixed_float::from_raw_value(y.rawValue);
-    auto res = fpm::fmod(ffX, ffY);
-    in->rawValue = res.raw_value();
+    auto res = fpm::fmod(x, y);
+    in->set_raw_value(res.raw_value());
 }
-void ff_remainder(FixedPoint* in, FixedPoint x, FixedPoint y)
+void ff_remainder(fixed_float* in, fixed_float x, fixed_float y)
 {
-    auto ffX = fixed_float::from_raw_value(x.rawValue);
-    auto ffY = fixed_float::from_raw_value(y.rawValue);
-    auto res = fpm::remainder(ffX, ffY);
-    in->rawValue = res.raw_value();
+    auto res = fpm::remainder(x, y);
+    in->set_raw_value(res.raw_value());
 }
-void ff_copysign(FixedPoint* in, FixedPoint x, FixedPoint y)
+void ff_copysign(fixed_float* in, fixed_float x, fixed_float y)
 {
-    auto ffX = fixed_float::from_raw_value(x.rawValue);
-    auto ffY = fixed_float::from_raw_value(y.rawValue);
-    auto res = fpm::copysign(ffX, ffY);
-    in->rawValue = res.raw_value();
+    auto res = fpm::copysign(x, y);
+    in->set_raw_value(res.raw_value());
 }
-void ff_modf(FixedPoint* in, FixedPoint val, FixedPoint* iPtr)
+void ff_modf(fixed_float* in, fixed_float val, fixed_float* iPtr)
 {
-    fixed_float iVal;
-    auto ffVal = fixed_float::from_raw_value(val.rawValue);
-    auto res = fpm::modf(ffVal, &iVal);
-    in->rawValue = res.raw_value();
-    iPtr->rawValue = iVal.raw_value();
+    auto res = fpm::modf(val, iPtr);
+    in->set_raw_value(res.raw_value());
 }
 
-void ff_pow(FixedPoint* in, FixedPoint base, FixedPoint pow)
+void ff_pow(fixed_float* in, fixed_float base, fixed_float pow)
 {
-    auto ffBase = fixed_float::from_raw_value(base.rawValue);
-    auto ffPow = fixed_float::from_raw_value(pow.rawValue);
-    auto res = fpm::pow(ffBase, ffPow);
-    in->rawValue = res.raw_value();
+    auto res = fpm::pow(base, pow);
+    in->set_raw_value(res.raw_value());
 }
 
-void ff_exp(FixedPoint* in, FixedPoint x)
+void ff_exp(fixed_float* in, fixed_float x)
 {
-    auto ffX = fixed_float::from_raw_value(x.rawValue);
-    auto res = fpm::exp(ffX);
-    in->rawValue = res.raw_value();
+    auto res = fpm::exp(x);
+    in->set_raw_value(res.raw_value());
 }
-void ff_exp2(FixedPoint* in, FixedPoint x)
+void ff_exp2(fixed_float* in, fixed_float x)
 {
-    auto ffX = fixed_float::from_raw_value(x.rawValue);
-    auto res = fpm::exp2(ffX);
-    in->rawValue = res.raw_value();
+    auto res = fpm::exp2(x);
+    in->set_raw_value(res.raw_value());
 }
-void ff_log2(FixedPoint* in, FixedPoint x)
+void ff_log2(fixed_float* in, fixed_float x)
 {
-    auto ffX = fixed_float::from_raw_value(x.rawValue);
-    auto res = fpm::log2(ffX);
-    in->rawValue = res.raw_value();
+    auto res = fpm::log2(x);
+    in->set_raw_value(res.raw_value());
 }
-void ff_ln(FixedPoint* in, FixedPoint x)
+void ff_ln(fixed_float* in, fixed_float x)
 {
-    auto ffX = fixed_float::from_raw_value(x.rawValue);
-    auto res = fpm::log(ffX);
-    in->rawValue = res.raw_value();
+    auto res = fpm::log(x);
+    in->set_raw_value(res.raw_value());
 }
-void ff_log10(FixedPoint* in, FixedPoint x)
+void ff_log10(fixed_float* in, fixed_float x)
 {
-    auto ffX = fixed_float::from_raw_value(x.rawValue);
-    auto res = fpm::log10(ffX);
-    in->rawValue = res.raw_value();
+    auto res = fpm::log10(x);
+    in->set_raw_value(res.raw_value());
 }
 
-void ff_cbrt(FixedPoint* in, FixedPoint val)
+void ff_cbrt(fixed_float* in, fixed_float val)
 {
-    auto ffVal = fixed_float::from_raw_value(val.rawValue);
-    auto res = fpm::cbrt(ffVal);
-    in->rawValue = res.raw_value();
+    auto res = fpm::cbrt(val);
+    in->set_raw_value(res.raw_value());
 }
-void ff_sqrt(FixedPoint* in, FixedPoint val)
+void ff_sqrt(fixed_float* in, fixed_float val)
 {
-    auto ffVal = fixed_float::from_raw_value(val.rawValue);
-    auto res = fpm::sqrt(ffVal);
-    in->rawValue = res.raw_value();
+    auto res = fpm::sqrt(val);
+    in->set_raw_value(res.raw_value());
 }
-
-
-
-
-
-
-
 #pragma endregion
 
 #pragma region Trigonometrics
 
-void ff_sin(FixedPoint* in, FixedPoint val)
+void ff_sin(fixed_float* in, fixed_float val)
 {
-    auto ffVal = fixed_float::from_raw_value(val.rawValue);
-    auto res = fpm::sin(ffVal);
-    in->rawValue = res.raw_value();
+    auto res = fpm::sin(val);
+    in->set_raw_value(res.raw_value());
 }
 
-void ff_cos(FixedPoint* in, FixedPoint val)
+void ff_cos(fixed_float* in, fixed_float val)
 {
-    auto ffVal = fixed_float::from_raw_value(val.rawValue);
-    auto res = fpm::cos(ffVal);
-    in->rawValue = res.raw_value();
+    auto res = fpm::cos(val);
+    in->set_raw_value(res.raw_value());
 }
 
-void ff_tan(FixedPoint* in, FixedPoint val)
+void ff_tan(fixed_float* in, fixed_float val)
 {
-    auto ffVal = fixed_float::from_raw_value(val.rawValue);
-    auto res = fpm::tan(ffVal);
-    in->rawValue = res.raw_value();
+    auto res = fpm::tan(val);
+    in->set_raw_value(res.raw_value());
 }
 
-void ff_asin(FixedPoint* in, FixedPoint val)
+void ff_asin(fixed_float* in, fixed_float val)
 {
-    auto ffVal = fixed_float::from_raw_value(val.rawValue);
-    auto res = fpm::asin(ffVal);
-    in->rawValue = res.raw_value();
+    auto res = fpm::asin(val);
+    in->set_raw_value(res.raw_value());
 }
 
-void ff_acos(FixedPoint* in, FixedPoint val)
+void ff_acos(fixed_float* in, fixed_float val)
 {
-    auto ffVal = fixed_float::from_raw_value(val.rawValue);
-    auto res = fpm::acos(ffVal);
-    in->rawValue = res.raw_value();
+    auto res = fpm::acos(val);
+    in->set_raw_value(res.raw_value());
 }
 
-void ff_atan(FixedPoint* in, FixedPoint val)
+void ff_atan(fixed_float* in, fixed_float val)
 {
-    auto ffVal = fixed_float::from_raw_value(val.rawValue);
-    auto res = fpm::atan(ffVal);
-    in->rawValue = res.raw_value();
+    auto res = fpm::atan(val);
+    in->set_raw_value(res.raw_value());
 }
 
-void ff_atan2(FixedPoint* in, FixedPoint y, FixedPoint x)
+void ff_atan2(fixed_float* in, fixed_float y, fixed_float x)
 {
-    auto ffY = fixed_float::from_raw_value(y.rawValue);
-    auto ffX = fixed_float::from_raw_value(x.rawValue);
-    auto res = fpm::atan2(ffY, ffX);
-    in->rawValue = res.raw_value();
+    auto res = fpm::atan2(y, x);
+    in->set_raw_value(res.raw_value());
 }
 
 #pragma endregion
 
 #pragma region Predefined variables
 
-void e(FixedPoint* out)
+void e(fixed_float* out)
 {
     auto e = fixed_float::e();
-    out->rawValue = e.raw_value();
+    out->set_raw_value(e.raw_value());
 }
-void pi(FixedPoint* out)
+void pi(fixed_float* out)
 {
     auto pi = fixed_float::pi();
-    out->rawValue = pi.raw_value();
+    out->set_raw_value(pi.raw_value());
 }
-void half_pi(FixedPoint* out)
+void half_pi(fixed_float* out)
 {
     auto half_pi = fixed_float::half_pi();
-    out->rawValue = half_pi.raw_value();
+    out->set_raw_value(half_pi.raw_value());
 }
-void two_pi(FixedPoint* out)
+void two_pi(fixed_float* out)
 {
     auto two_pi = fixed_float::two_pi();
-    out->rawValue = two_pi.raw_value();
+    out->set_raw_value(two_pi.raw_value());
 }
 
 #pragma endregion
@@ -275,34 +224,123 @@ void two_pi(FixedPoint* out)
 
 void matrix4x4_mult(FixedMatrix4x4* res, FixedMatrix4x4 lhs, FixedMatrix4x4 rhs)
 {
-    FixedMatrix4x4Native lhsNative {lhs};
-    FixedMatrix4x4Native rhsNative {rhs};
-    res->m00.rawValue = (lhsNative.m00 * rhsNative.m00 + lhsNative.m01 * rhsNative.m10 + lhsNative.m02 * rhsNative.m20 + lhsNative.m03 * rhsNative.m30).raw_value();
-    res->m01.rawValue = (lhsNative.m00 * rhsNative.m01 + lhsNative.m01 * rhsNative.m11 + lhsNative.m02 * rhsNative.m21 + lhsNative.m03 * rhsNative.m31).raw_value();
-    res->m02.rawValue = (lhsNative.m00 * rhsNative.m02 + lhsNative.m01 * rhsNative.m12 + lhsNative.m02 * rhsNative.m22 + lhsNative.m03 * rhsNative.m32).raw_value();
-    res->m03.rawValue = (lhsNative.m00 * rhsNative.m03 + lhsNative.m01 * rhsNative.m13 + lhsNative.m02 * rhsNative.m23 + lhsNative.m03 * rhsNative.m33).raw_value();
+    res->m00 = (lhs.m00 * rhs.m00 + lhs.m01 * rhs.m10 + lhs.m02 * rhs.m20 + lhs.m03 * rhs.m30);
+    res->m01 = (lhs.m00 * rhs.m01 + lhs.m01 * rhs.m11 + lhs.m02 * rhs.m21 + lhs.m03 * rhs.m31);
+    res->m02 = (lhs.m00 * rhs.m02 + lhs.m01 * rhs.m12 + lhs.m02 * rhs.m22 + lhs.m03 * rhs.m32);
+    res->m03 = (lhs.m00 * rhs.m03 + lhs.m01 * rhs.m13 + lhs.m02 * rhs.m23 + lhs.m03 * rhs.m33);
 
-    res->m10.rawValue = (lhsNative.m10 * rhsNative.m00 + lhsNative.m11 * rhsNative.m10 + lhsNative.m12 * rhsNative.m20 + lhsNative.m13 * rhsNative.m30).raw_value();
-    res->m11.rawValue = (lhsNative.m10 * rhsNative.m01 + lhsNative.m11 * rhsNative.m11 + lhsNative.m12 * rhsNative.m21 + lhsNative.m13 * rhsNative.m31).raw_value();
-    res->m12.rawValue = (lhsNative.m10 * rhsNative.m02 + lhsNative.m11 * rhsNative.m12 + lhsNative.m12 * rhsNative.m22 + lhsNative.m13 * rhsNative.m32).raw_value();
-    res->m13.rawValue = (lhsNative.m10 * rhsNative.m03 + lhsNative.m11 * rhsNative.m13 + lhsNative.m12 * rhsNative.m23 + lhsNative.m13 * rhsNative.m33).raw_value();
+    res->m10 = (lhs.m10 * rhs.m00 + lhs.m11 * rhs.m10 + lhs.m12 * rhs.m20 + lhs.m13 * rhs.m30);
+    res->m11 = (lhs.m10 * rhs.m01 + lhs.m11 * rhs.m11 + lhs.m12 * rhs.m21 + lhs.m13 * rhs.m31);
+    res->m12 = (lhs.m10 * rhs.m02 + lhs.m11 * rhs.m12 + lhs.m12 * rhs.m22 + lhs.m13 * rhs.m32);
+    res->m13 = (lhs.m10 * rhs.m03 + lhs.m11 * rhs.m13 + lhs.m12 * rhs.m23 + lhs.m13 * rhs.m33);
 
-    res->m20.rawValue = (lhsNative.m20 * rhsNative.m00 + lhsNative.m21 * rhsNative.m10 + lhsNative.m22 * rhsNative.m20 + lhsNative.m23 * rhsNative.m30).raw_value();
-    res->m21.rawValue = (lhsNative.m20 * rhsNative.m01 + lhsNative.m21 * rhsNative.m11 + lhsNative.m22 * rhsNative.m21 + lhsNative.m23 * rhsNative.m31).raw_value();
-    res->m22.rawValue = (lhsNative.m20 * rhsNative.m02 + lhsNative.m21 * rhsNative.m12 + lhsNative.m22 * rhsNative.m22 + lhsNative.m23 * rhsNative.m32).raw_value();
-    res->m23.rawValue = (lhsNative.m20 * rhsNative.m03 + lhsNative.m21 * rhsNative.m13 + lhsNative.m22 * rhsNative.m23 + lhsNative.m23 * rhsNative.m33).raw_value();
+    res->m20 = (lhs.m20 * rhs.m00 + lhs.m21 * rhs.m10 + lhs.m22 * rhs.m20 + lhs.m23 * rhs.m30);
+    res->m21 = (lhs.m20 * rhs.m01 + lhs.m21 * rhs.m11 + lhs.m22 * rhs.m21 + lhs.m23 * rhs.m31);
+    res->m22 = (lhs.m20 * rhs.m02 + lhs.m21 * rhs.m12 + lhs.m22 * rhs.m22 + lhs.m23 * rhs.m32);
+    res->m23 = (lhs.m20 * rhs.m03 + lhs.m21 * rhs.m13 + lhs.m22 * rhs.m23 + lhs.m23 * rhs.m33);
 
-    res->m30.rawValue = (lhsNative.m30 * rhsNative.m00 + lhsNative.m31 * rhsNative.m10 + lhsNative.m32 * rhsNative.m20 + lhsNative.m33 * rhsNative.m30).raw_value();
-    res->m31.rawValue = (lhsNative.m30 * rhsNative.m01 + lhsNative.m31 * rhsNative.m11 + lhsNative.m32 * rhsNative.m21 + lhsNative.m33 * rhsNative.m31).raw_value();
-    res->m32.rawValue = (lhsNative.m30 * rhsNative.m02 + lhsNative.m31 * rhsNative.m12 + lhsNative.m32 * rhsNative.m22 + lhsNative.m33 * rhsNative.m32).raw_value();
-    res->m33.rawValue = (lhsNative.m30 * rhsNative.m03 + lhsNative.m31 * rhsNative.m13 + lhsNative.m32 * rhsNative.m23 + lhsNative.m33 * rhsNative.m33).raw_value();
+    res->m30 = (lhs.m30 * rhs.m00 + lhs.m31 * rhs.m10 + lhs.m32 * rhs.m20 + lhs.m33 * rhs.m30);
+    res->m31 = (lhs.m30 * rhs.m01 + lhs.m31 * rhs.m11 + lhs.m32 * rhs.m21 + lhs.m33 * rhs.m31);
+    res->m32 = (lhs.m30 * rhs.m02 + lhs.m31 * rhs.m12 + lhs.m32 * rhs.m22 + lhs.m33 * rhs.m32);
+    res->m33 = (lhs.m30 * rhs.m03 + lhs.m31 * rhs.m13 + lhs.m32 * rhs.m23 + lhs.m33 * rhs.m33);
 }
 
+void matrix4x4_mult_vec4(FixedVec4* res, FixedMatrix4x4 lhs, FixedVec4 vector)
+{
+    res->x = lhs.m00 * vector.x + lhs.m01 * vector.y + lhs.m02 * vector.z + lhs.m03 * vector.w;
+    res->y = lhs.m10 * vector.x + lhs.m11 * vector.y + lhs.m12 * vector.z + lhs.m13 * vector.w;
+    res->z = lhs.m20 * vector.x + lhs.m21 * vector.y + lhs.m22 * vector.z + lhs.m23 * vector.w;
+    res->w = lhs.m30 * vector.x + lhs.m31 * vector.y + lhs.m32 * vector.z + lhs.m33 * vector.w;
+}
+
+// Transforms a position by this matrix, with a perspective divide. (generic)
+void matrix4x4_mult_point(FixedVec3* res, FixedMatrix4x4 lhs, FixedVec3 point)
+{
+    fixed_float w;
+    auto x = lhs.m00 * point.x + lhs.m01 * point.y + lhs.m02 * point.z + lhs.m03;
+    auto y = lhs.m10 * point.x + lhs.m11 * point.y + lhs.m12 * point.z + lhs.m13;
+    auto z = lhs.m20 * point.x + lhs.m21 * point.y + lhs.m22 * point.z + lhs.m23;
+    w = lhs.m30 * point.x + lhs.m31 * point.y + lhs.m32 * point.z + lhs.m33;
+
+    w = 1 / w;
+    x *= w;
+    y *= w;
+    z *= w;
+    res->x = x;
+    res->y = y;
+    res->z = z;
+}
+// Transforms a position by this matrix, without a perspective divide. (fast)
+void matrix4x4_mult_point3x4(FixedVec3* res, FixedMatrix4x4 lhs, FixedVec3 point)
+{
+    res->x = lhs.m00 * point.x + lhs.m01 * point.y + lhs.m02 * point.z + lhs.m03;
+    res->y = lhs.m10 * point.x + lhs.m11 * point.y + lhs.m12 * point.z + lhs.m13;
+    res->z = lhs.m20 * point.x + lhs.m21 * point.y + lhs.m22 * point.z + lhs.m23;
+}
+
+// Transforms a direction by this matrix.
+void matrix4x4_mult_vec3(FixedVec3* res, FixedMatrix4x4 lhs, FixedVec3 vector)
+{
+    res->x = lhs.m00 * vector.x + lhs.m01 * vector.y + lhs.m02 * vector.z;
+    res->y = lhs.m10 * vector.x + lhs.m11 * vector.y + lhs.m12 * vector.z;
+    res->z = lhs.m20 * vector.x + lhs.m21 * vector.y + lhs.m22 * vector.z;
+}
+
+// Creates a scaling matrix.
+void matrix4x4_scale(FixedMatrix4x4* res, FixedVec3 vector)
+{
+    auto zero = fixed_float::zero();
+    auto one = fixed_float::one();
+    res->m00 = vector.x; res->m01 = zero; res->m02 = zero; res->m03 = zero;
+    res->m10 = zero; res->m11 = vector.y; res->m12 = zero; res->m13 = zero;
+    res->m20 = zero; res->m21 = zero; res->m22 = vector.z; res->m23 = zero;
+    res->m30 = zero; res->m31 = zero; res->m32 = zero; res->m33 = one;
+}
+
+// Creates a translation matrix.
+void matrix4x4_translate(FixedMatrix4x4* res, FixedVec3 vector)
+{
+    auto zero = fixed_float::zero();
+    auto one = fixed_float::one();
+    res->m00 = one; res->m01 = zero; res->m02 = zero; res->m03 = vector.x;
+    res->m10 = zero; res->m11 = one; res->m12 = zero; res->m13 = vector.y;
+    res->m20 = zero; res->m21 = zero; res->m22 = one; res->m23 = vector.z;
+    res->m30 = zero; res->m31 = zero; res->m32 = zero; res->m33 = one;
+}
+// Creates a rotation matrix. Note: Assumes unit quaternion
+void matrix4x4_rotate(FixedMatrix4x4* res, FixedQuaternion q)
+{
+    auto zero = fixed_float::zero();
+    auto one = fixed_float::one();
+    
+    auto num1 = q.x * 2;
+    auto num2 = q.y * 2;
+    auto num3 = q.z * 2;
+    auto num4 = q.x * num1;
+    auto num5 = q.y * num2;
+    auto num6 = q.z * num3;
+    auto num7 = q.x * num2;
+    auto num8 = q.x * num3;
+    auto num9 = q.y * num3;
+    auto num10 = q.w * num1;
+    auto num11 = q.w * num2;
+    auto num12 = q.w * num3;
+    res->m00 = (one - (num5 + num6));
+    res->m10 = num7 + num12;
+    res->m20 = num8 - num11;
+    res->m30 = zero;
+    res->m01 = num7 - num12;
+    res->m11 = (one - ( num4 + num6));
+    res->m21 = num9 + num10;
+    res->m31 = zero;
+    res->m02 = num8 + num11;
+    res->m12 = num9 - num10;
+    res->m22 = (one - ( num4 + num5));
+    res->m32 = zero;
+    res->m03 = zero;
+    res->m13 = zero;
+    res->m23 = zero;
+    res->m33 = one;
+}
 
 #pragma endregion
-
-void test_native(fixed_float* in, fixed_float t)
-{
-    //테스트 잘 되나?
-    *in += t;
-}

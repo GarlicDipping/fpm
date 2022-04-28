@@ -123,6 +123,8 @@ public:
     static constexpr fixed pi() { return from_fixed_point<61>(7244019458077122842ll); }
     static constexpr fixed half_pi() { return from_fixed_point<62>(7244019458077122842ll); }
     static constexpr fixed two_pi() { return from_fixed_point<60>(7244019458077122842ll); }
+    static constexpr fixed zero() { return fixed(0); }
+    static constexpr fixed one() { return fixed(1); }
 
     //
     // Arithmetic member operators
@@ -191,6 +193,12 @@ public:
     inline fixed& operator/=(I y) noexcept
     {
         m_value /= y;
+        return *this;
+    }
+
+    inline fixed& set_raw_value(const int raw_value) noexcept
+    {
+        m_value = raw_value;
         return *this;
     }
 
