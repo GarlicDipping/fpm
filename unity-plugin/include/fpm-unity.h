@@ -5,7 +5,15 @@
 #ifndef FPM_FPM_UNITY_H
 #define FPM_FPM_UNITY_H
 
+#if defined(__CYGWIN32__)
 #define DLLExport __declspec(dllexport)
+#elif defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(_WIN64) || defined(WINAPI_FAMILY)
+#define DLLExport __declspec(dllexport)
+#elif defined(__MACH__) || defined(__ANDROID__) || defined(__linux__)
+#define DLLExport
+#else
+#define DLLExport
+#endif
 
 #include "fpm/fixed.hpp"  // For fpm::fixed_16_16
 #include "fpm/math.hpp"   // For fpm::cos
